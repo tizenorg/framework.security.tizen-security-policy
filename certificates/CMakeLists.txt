@@ -1,0 +1,13 @@
+#ADD_SUBDIRECTORY(eur_open)
+
+#IF(NOT ${OPERATOR} STREQUAL eur_open)
+#MESSAGE("test -------- ${OPERATOR}.")
+#	ADD_SUBDIRECTORY(${OPERATOR})
+#ENDIF()
+
+
+MESSAGE("Release mode : ${RELMODE}")
+#IF(${RELMODE} STREQUAL usr)
+	MESSAGE("Add ${RELMODE} cerificates")
+	ADD_SUBDIRECTORY(${RELMODE})
+#ENDIF()

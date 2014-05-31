@@ -1,0 +1,6 @@
+MESSAGE("Copying usr root CA certificates.")
+INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/developer/ DESTINATION /opt/share/cert-svc/certs/code-signing/tizen FILES_MATCHING PATTERN "*.pem")
+INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/public/ DESTINATION /opt/share/cert-svc/certs/code-signing/tizen FILES_MATCHING PATTERN "*.pem")
+INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/partner/ DESTINATION /opt/share/cert-svc/certs/code-signing/tizen FILES_MATCHING PATTERN "*.pem")
+INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/platform/ DESTINATION /opt/share/cert-svc/certs/code-signing/tizen FILES_MATCHING PATTERN "*.pem")
+INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/wac/ DESTINATION /opt/share/cert-svc/certs/code-signing/wac FILES_MATCHING PATTERN "*.pem")
