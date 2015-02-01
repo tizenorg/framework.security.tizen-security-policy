@@ -25,12 +25,6 @@ cp %{SOURCE1001} .
 
 %build
 
-# ex. redwood8974_eur_open
-SEC_BUILD_PROJECT_NAME=%{sec_build_project_name}
-
-# ex. eur_open
-OPERATOR=${SEC_BUILD_PROJECT_NAME#*_}
-
 ARCH=%{arch}
 
 %ifarch %{ix86}
@@ -41,19 +35,20 @@ ARCH=arm
 
 if [ "$ARCH" = "arm" ]; then
 	echo "target"
-%if 0%{?tizen_build_binary_release_type_eng}
 	echo "release type eng"
 	REL_MODE=eng
-%else
-	REL_MODE=usr
-%endif
 else
 	echo "emulator"
 	REL_MODE=emul
 fi
 
-#03-04, No more use OPERATOR
-%cmake . -DRELMODE=${REL_MODE} # -DOPERATOR=${OPERATOR}
+%if "%{?tizen_profile_name}" == "wearable"
+    PROFILE_TARGET=wearable
+%elseif "%{?tizen_profile_name}" == "mobile"
+    PROFILE_TARGET=mobile
+%endif
+
+%cmake . -DRELMODE=${REL_MODE} -DPROFILE_TARGET=${PROFILE_TARGET}
 
 make %{?_smp_mflags}
 
@@ -72,6 +67,6 @@ install LICENSE.Apache-2.0 %{buildroot}/usr/share/license/%{name}
 %manifest %{name}.manifest
 /usr/share/wrt-engine/*
 %attr(664,root,root) /usr/etc/ace/TizenPolicy.xml
-%attr(664,root,root) /opt/share/cert-svc/certs/code-signing/tizen/*.pem
-%attr(664,root,root) /opt/share/cert-svc/certs/code-signing/wac/*.pem
+%attr(664,root,root) /usr/share/cert-svc/certs/code-signing/tizen/*.pem
+%attr(664,root,root) /usr/share/cert-svc/certs/code-signing/wac/*.pem
 /usr/share/license/%{name}
